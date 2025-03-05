@@ -22,6 +22,7 @@
 			<optional>true</optional>
 		</dependency>
 
+
 		<!-- SLF4J Aadpter -->
 		<!--日志门面-->
 		<dependency>
