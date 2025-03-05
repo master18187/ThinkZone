@@ -13,6 +13,8 @@
 	<properties>
 		<java.version>1.8</java.version>
 		<lombok.version>1.18.30</lombok.version>
+		<assertj-core.version>3.9.1</assertj-core.version>
+		<assertj.version>1.9.19</assertj.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -21,7 +23,27 @@
 			<version>${lombok.version}</version>
 			<optional>true</optional>
 		</dependency>
-
+		<dependency>
+			<groupId>org.assertj</groupId>
+			<artifactId>assertj-core</artifactId>
+			<version>${assertj-core.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>${assertj.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>${assertj.version}</version>
+		</dependency>
+		<!-- <dependency>
+			<groupId>org.ow2.asm</groupId>
+			<artifactId>asm</artifactId>
+			<version>9.5</version>
+		</dependency> -->
 
 		<!-- SLF4J Aadpter -->
 		<!--日志门面-->
