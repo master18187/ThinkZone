@@ -1,6 +1,9 @@
 package com.example.demo.fake.spring.factory;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -11,6 +14,8 @@ import org.apache.commons.lang3.reflect.FieldUtils;
 
 import com.example.demo.fake.spring.bean.BeanDefinition;
 import com.example.demo.fake.spring.bean.ClassPathBeanDefinitionReader;
+import com.example.demo.fake.spring.test.TestDao;
+import com.example.demo.fake.spring.test.TestDaoImpl;
 
 public class SimpleBeanFactory implements BeanFactory {
 
@@ -44,7 +49,7 @@ public class SimpleBeanFactory implements BeanFactory {
             unInitMap.remove(clazz);
             return createdBean;
         }
-        return (T) completeBeanMap.get(clazz);
+        return (T) bean;
     }
 
     public void componentScan(String location) {
@@ -94,12 +99,27 @@ public class SimpleBeanFactory implements BeanFactory {
 
             // 4. 初始化Bean（调用@PostConstruct方法）
             initializeBean(newInstanceBean, beanDefinition);
-           
-            return newInstanceBean;
+
+            // 5.代理Bean
+            boolean porxy = false;
+            boolean jdkProxy = true;
+            return porxy ? (jdkProxy ? proxyBean(clazz, newInstanceBean) : newInstanceBean) : newInstanceBean;
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private <T> T proxyBean(Class<T> clazz, T newInstanceBean) {
+        return (T) Proxy.newProxyInstance(newInstanceBean.getClass().getClassLoader(), newInstanceBean.getClass().getInterfaces(),
+                new InvocationHandler() {
+                    @Override
+                    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+                        System.out.println("before invoke method: " + method);
+                        return method.invoke(newInstanceBean, args);
+                    }
+
+                });
     }
 
     public <T> T newInstanceBean(Class<T> clazz) {

@@ -1,7 +1,7 @@
 package com.example.demo.fake.spring.test;
 
-public interface TestDao {
+public interface TestService {
 
-    void testDao();
+    void sayHello();
     
 }

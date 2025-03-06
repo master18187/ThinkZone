@@ -5,18 +5,17 @@ import com.example.demo.fake.spring.annotation.MyComponent;
 import com.example.demo.fake.spring.annotation.MyLazy;
 
 @MyComponent
-public class TestServiceImpl implements TestService {
+public class TestDaoImpl implements TestDao {
 
     @MyLazy
     @MyAutowired
-    private TestDaoImpl testDao;
-
-    public void sayHello() {
-        System.out.println("hello world");
-    }
+    private TestServiceImpl testServiceImpl;
 
     public void testDao() {
-        testDao.testDao();
+        System.out.println("hello dao");
     }
 
+    public void testService() {
+        testServiceImpl.sayHello();
+    }
 }
