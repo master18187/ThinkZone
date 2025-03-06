@@ -17,6 +17,10 @@ public class MyBootApplication {
         applicationContext.refresh();
 
         TestServiceImpl bean = applicationContext.getBean(TestServiceImpl.class);
+        System.out.println(bean);
+        bean.sayHello();
+        bean = applicationContext.getBean(TestServiceImpl.class);
+        System.out.println(bean);
         bean.sayHello();
     }
 }
