@@ -2,8 +2,11 @@ package com.example.demo.fake.spring.bean;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import com.example.demo.fake.spring.annotation.MyAutowired;
 import com.example.demo.fake.spring.annotation.MyComponent;
 import com.example.demo.fake.spring.core.AnnotationMetadataReadingVisitor;
 import com.example.demo.fake.spring.core.Resource;
@@ -37,6 +40,19 @@ public class ClassPathBeanDefinitionReader {
                     beanDefinition.setName(className);
                     beanDefinition.setClazz(clazz);
                     beanDefinitions.add(beanDefinition);
+                    // 字段注解
+                    if (visitor.hasFiledAnnotation()) {
+                        Map<String, String> hasAnnotationFields = visitor
+                                .hasAnnotationFields(MyAutowired.class.getName());
+                        if (!hasAnnotationFields.isEmpty()) {
+                            Map<String, Class<?>> injectFields = new HashMap<>();
+                            for (Map.Entry<String, String> entry : hasAnnotationFields.entrySet()) {
+                                Class<?> clz = Class.forName(entry.getValue());
+                                injectFields.put(entry.getKey(), clz);
+                            }
+                            beanDefinition.setInjectFields(injectFields);
+                        }
+                    }
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 }

@@ -9,8 +9,6 @@ import java.lang.annotation.Target;
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface MyAutowired {
+public @interface MyLazy {
     
-    boolean required() default false;
-
 }

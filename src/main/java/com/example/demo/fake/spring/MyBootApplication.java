@@ -22,5 +22,7 @@ public class MyBootApplication {
         bean = applicationContext.getBean(TestServiceImpl.class);
         System.out.println(bean);
         bean.sayHello();
+
+        bean.testDao();
     }
 }
